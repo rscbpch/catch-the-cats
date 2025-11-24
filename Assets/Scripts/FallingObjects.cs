@@ -16,10 +16,8 @@ public class FallingObject : MonoBehaviour
             return;
         }
         
-        // Move downward
         transform.Translate(Vector3.down * fallSpeed * Time.deltaTime);
         
-        // Destroy if below screen
         if (transform.position.y < destroyY)
         {
             OnMissed();
@@ -32,7 +30,6 @@ public class FallingObject : MonoBehaviour
         {
             GameManager.Instance?.CatchBomb();
         }
-        // If it's a cat, just destroy it (successful catch)
         
         Destroy(gameObject);
     }

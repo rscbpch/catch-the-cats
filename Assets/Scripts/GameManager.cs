@@ -6,7 +6,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     
     [Header("Game Settings")]
-    public float gameDuration = 60f;
+    public float gameDuration = 30f;
+    [SerializeField] private string winSceneName = "WinScene";
+    [SerializeField] private string loseSceneName = "LoseScene";
     
     [Header("Game State")]
     public int missedCats = 0;
@@ -70,16 +72,28 @@ public class GameManager : MonoBehaviour
     
     public void GameOver(string reason)
     {
+        if (gameOver) return;
+        
         gameOver = true;
         UIManager.Instance?.ShowGameOver(reason);
-        Time.timeScale = 0f;
+        
+        if (!LoadSceneIfConfigured(loseSceneName))
+        {
+            Time.timeScale = 0f;
+        }
     }
     
     public void WinGame()
     {
+        if (gameWon) return;
+        
         gameWon = true;
         UIManager.Instance?.ShowWin();
-        Time.timeScale = 0f;
+        
+        if (!LoadSceneIfConfigured(winSceneName))
+        {
+            Time.timeScale = 0f;
+        }
     }
     
     public float GetTimeRemaining()
@@ -91,5 +105,18 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private bool LoadSceneIfConfigured(string sceneName)
+    {
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            return false;
+        }
+
+        Debug.Log($"[GAME] Loading scene '{sceneName}'");
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(sceneName);
+        return true;
     }
 }
