@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public float gameDuration = 15f;
     [SerializeField] private string winSceneName = "WinScene";
 
-    [Header("Lose Scenes")]                     // 👈 Add this
+    [Header("Lose Scenes")]
     [SerializeField] private string catLoseSceneName = "CatLoseScene";
     [SerializeField] private string boomLoseSceneName = "BoomLoseScene";
 
@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    // ----------- CAT MISSED -----------
     public void MissCat()
     {
         if (gameOver || gameWon) return;
@@ -53,19 +52,17 @@ public class GameManager : MonoBehaviour
 
         if (missedCats >= maxMisses)
         {
-            GameOver(catLoseSceneName);   // 👈 Load CatLoseScene
+            GameOver(catLoseSceneName);
         }
     }
 
-    // ----------- BOMB CAUGHT -----------
     public void CatchBomb()
     {
         if (gameOver || gameWon) return;
 
-        GameOver(boomLoseSceneName);      // 👈 Load BoomLoseScene
+        GameOver(boomLoseSceneName);
     }
 
-    // ----------- GAME OVER -----------
     public void GameOver(string loseSceneToLoad)
     {
         if (gameOver) return;
@@ -78,7 +75,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(loseSceneToLoad);
     }
 
-    // ----------- WIN -----------
     public void WinGame()
     {
         if (gameWon) return;
