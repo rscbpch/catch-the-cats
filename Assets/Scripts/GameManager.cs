@@ -6,10 +6,13 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     
     [Header("Game Settings")]
-    public float gameDuration = 30f;
+    public float gameDuration = 15f;
     [SerializeField] private string winSceneName = "WinScene";
-    [SerializeField] private string loseSceneName = "LoseScene";
-    
+
+    [Header("Lose Scenes")]                     // 👈 Add this
+    [SerializeField] private string catLoseSceneName = "CatLoseScene";
+    [SerializeField] private string boomLoseSceneName = "BoomLoseScene";
+
     [Header("Game State")]
     public int missedCats = 0;
     public int maxMisses = 3;
@@ -21,14 +24,8 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
     
     private void Start()
@@ -42,81 +39,62 @@ public class GameManager : MonoBehaviour
         if (gameStarted && !gameOver && !gameWon)
         {
             timeRemaining -= Time.deltaTime;
-            
-            if (timeRemaining <= 0)
-            {
-                WinGame();
-            }
+            if (timeRemaining <= 0) WinGame();
         }
     }
     
+    // ----------- CAT MISSED -----------
     public void MissCat()
     {
         if (gameOver || gameWon) return;
-        
+
         missedCats++;
         UIManager.Instance?.UpdateMisses(missedCats);
-        
+
         if (missedCats >= maxMisses)
         {
-            GameOver("You missed too many cats!");
+            GameOver(catLoseSceneName);   // 👈 Load CatLoseScene
         }
     }
-    
+
+    // ----------- BOMB CAUGHT -----------
     public void CatchBomb()
     {
         if (gameOver || gameWon) return;
-        
-        GameOver("You caught a bomb!");
+
+        GameOver(boomLoseSceneName);      // 👈 Load BoomLoseScene
     }
-    
-    public void GameOver(string reason)
+
+    // ----------- GAME OVER -----------
+    public void GameOver(string loseSceneToLoad)
     {
         if (gameOver) return;
-        
+
         gameOver = true;
-        UIManager.Instance?.ShowGameOver(reason);
-        
-        if (!LoadSceneIfConfigured(loseSceneName))
-        {
-            Time.timeScale = 0f;
-        }
+
+        UIManager.Instance?.ShowGameOver("Game Over!");
+
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(loseSceneToLoad);
     }
-    
+
+    // ----------- WIN -----------
     public void WinGame()
     {
         if (gameWon) return;
-        
+
         gameWon = true;
         UIManager.Instance?.ShowWin();
-        
-        if (!LoadSceneIfConfigured(winSceneName))
-        {
-            Time.timeScale = 0f;
-        }
+
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(winSceneName);
     }
     
-    public float GetTimeRemaining()
-    {
-        return timeRemaining;
-    }
-    
+    public float GetTimeRemaining() => timeRemaining;
+
     public void RestartGame()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    private bool LoadSceneIfConfigured(string sceneName)
-    {
-        if (string.IsNullOrEmpty(sceneName))
-        {
-            return false;
-        }
-
-        Debug.Log($"[GAME] Loading scene '{sceneName}'");
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneName);
-        return true;
     }
 }

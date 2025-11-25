@@ -160,9 +160,9 @@ MonoBehaviour:
   - {fileID: 8715944641549815299, guid: f8a06951b4aa74cd7ad301d10324e39e, type: 3}
   bombPrefab: {fileID: 8026877215068071041, guid: 88a528c3beb4b4b15b06510615b3e2c9, type: 3}
   spawnIntervalMin: 0.5
-  spawnIntervalMax: 2
-  spawnXMin: -7
-  spawnXMax: 7
+  spawnIntervalMax: 1
+  spawnXMin: -6
+  spawnXMax: 6
   spawnY: 6
   parentRectTransform: {fileID: 837700191}
   bombSpawnChance: 30
@@ -626,7 +626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7110422014133377432, guid: 48ba5b8454eb74ecd9f0a982658323ce, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 69.999985
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 7110422014133377432, guid: 48ba5b8454eb74ecd9f0a982658323ce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

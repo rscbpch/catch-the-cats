@@ -8,4 +8,4 @@ Your goal is to survive for 60 seconds without losing.
 - Avoid bombs — catching one ends the game instantly.
 - Each missed cat increases the miss counter.
 - Miss 3 cats → Game Over.
-- Survive 30 seconds → You Win!
+- Survive 15 seconds → You Win!
