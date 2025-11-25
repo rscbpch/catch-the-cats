@@ -360,9 +360,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb2b92be14114531886ec6635b835dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameDuration: 30
+  gameDuration: 15
   winSceneName: WinScene
-  loseSceneName: LoseScene
+  catLoseSceneName: CatLoseScene
+  boomLoseSceneName: BoomLoseScene
   missedCats: 0
   maxMisses: 3
   gameOver: 0
